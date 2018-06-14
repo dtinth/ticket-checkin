@@ -1,9 +1,9 @@
 import React from 'react'
 import { Panel, HBox, TextField, Button } from '../ui'
-import axios from 'axios'
 import { eventContext } from '../event-context'
 import Track from 'react-pledge'
 import { flashError, flashSuccess } from '../flash-message'
+import { checkIn } from '../attendee-self-check-in'
 
 export class SelfCheckinPanel extends React.Component {
   refCodeField: any
@@ -45,14 +45,9 @@ export class SelfCheckinPanel extends React.Component {
   onSubmit = async (e, eventId) => {
     e.preventDefault()
     try {
-      const result = await axios.post(
-        'https://us-central1-reactbkk3-tickets-checkin.cloudfunctions.net/checkIn',
-        {
-          refCode: this.refCodeField.value,
-          totp: this.totpField.value,
-          eventId: eventId
-        }
-      )
+      const refCode = this.refCodeField.value
+      const totp = this.totpField.value
+      const result = await checkIn(refCode, totp, eventId)
       if (result.data.error) {
         flashError(`Check in failure: ${result.data.error}`)
         return
