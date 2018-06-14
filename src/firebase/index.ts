@@ -127,7 +127,7 @@ export class FirebaseData<T = any> extends React.Component<
 
   componentDidUpdate(prevProps) {
     if (!this.props.dataRef.isEqual(prevProps.dataRef)) {
-      this.setDataRef(prevProps.dataRef)
+      this.setDataRef(this.props.dataRef)
     }
   }
 

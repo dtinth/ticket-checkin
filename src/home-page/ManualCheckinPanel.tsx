@@ -9,7 +9,7 @@ export class ManualCheckinPanel extends React.Component {
         <AdminOnly>
           {() => (
             <Fragment>
-              TODO: This panel allows an administrator to manually check-in for
+              TODO: This panel allows an administrator to manually check-in an
               attendee.
             </Fragment>
           )}

@@ -28,48 +28,4 @@ Ticket check-in system, for events
 
 ## Data model
 
-```yml
-events:
-  EVENT NAME:
-    # Event information (public)
-    info:
-      title: TITLE
-
-    # Keys used to generate OTP (secret)
-    keys:
-      # For self-checkin
-      attendee: KEY
-
-      # For staff checkin
-      staff: KEY
-
-    # Attendee info (private)
-    attendees:
-      REFCODE:
-        info:
-          name: 'Name'
-          company: 'Company name'
-          position: 'Position name'
-
-    # Check-in records
-    checkins:
-      REFCODE:
-        time: TIMESTAMP
-        mode: staff / self / kiosk / manual
-
-    # Fulfillment staff
-    staff:
-      UID:
-        # If available for fulfillment, then put a unique ID here
-        available: NEXT_ID
-
-        # Fulfillment jobs
-        jobs:
-          ID:
-            time: TIMESTAMP
-            refcode: REFCODE
-            info:
-              name: 'Name'
-              company: 'Company name'
-              position: 'Position name'
-```
+Just read the [bolt](./database.rules.bolt) file.

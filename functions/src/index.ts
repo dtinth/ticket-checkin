@@ -1,9 +1,66 @@
 import * as functions from 'firebase-functions'
+import * as admin from 'firebase-admin'
+import authenticator from 'otplib/authenticator'
+import crypto from 'crypto'
+import cors from 'cors'
+authenticator.options = { crypto, window: 6 }
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
-export const signIn = functions.https.onCall((data, context) => {})
+admin.initializeApp()
+
+export const checkIn = functions.https.onRequest((request, response) => {
+  cors()(request, response, async () => {
+    try {
+      const { eventId, totp, refCode } = request.body
+      const eventRef = admin
+        .database()
+        .ref('events')
+        .child(`${eventId}`)
+      const key = (await eventRef
+        .child('keys')
+        .child('attendee')
+        .once('value')).val()
+
+      const tokenValid = authenticator.check({
+        secret: key,
+        token: `${totp}`
+      })
+      if (!tokenValid) {
+        response.json({
+          error: 'ETOKEN'
+        })
+        return
+      }
+
+      const attendee = (await eventRef
+        .child('attendees')
+        .child(`${refCode}`)
+        .once('value')).val()
+      if (!attendee) {
+        response.json({
+          error: 'EREF'
+        })
+        return
+      }
+
+      const checkInRef = eventRef.child('checkins').child(`${refCode}`)
+      let checkIn = (await checkInRef.once('value')).val()
+
+      if (checkIn) {
+        response.json({ checkIn, attendee })
+        return
+      }
+
+      checkIn = {
+        time: admin.database.ServerValue.TIMESTAMP,
+        mode: 'self'
+      }
+      await checkInRef.set(checkIn)
+      response.json({ checkIn, attendee })
+    } catch (e) {
+      response.status(500).send('WTF?')
+      console.error(e)
+    }
+  })
+})
+
+export const staffSignIn = functions.https.onCall((data, context) => {})

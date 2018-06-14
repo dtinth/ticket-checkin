@@ -10,6 +10,9 @@ path /events/{eventId} {
   path /attendees/{attendeeId} is Attendee {
     read() { isStaff(eventId) }
   }
+  path /checkins/{attendeeId} is CheckIn {
+    read() { isStaff(eventId) }
+  }
   path /staffs/{staffId} is Staff {
     read() { isStaff(eventId) }
   }
@@ -38,10 +41,15 @@ type Attendee {
 
 type FulfillmentJob {
   time: Number,
-  refcode: String,
+  refCode: String,
   displayName: String,
   info: Any | Null
 }
 
+type CheckIn {
+  time: Number,
+  mode: String
+}
+
 isEventAdmin(eventId) { root.events[eventId].admins[auth.uid] != null }
-isStaff(eventId) { root.events[eventId] }
+isStaff(eventId) { false }
