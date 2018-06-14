@@ -2,12 +2,12 @@ import React from 'react'
 import {
   FirebaseDataState,
   firebase,
-  FirebaseDataStatus,
-  FirebaseData
+  FirebaseData,
+  FirebaseDataStatus
 } from '../firebase'
 import { eventContext } from '../event-context'
 
-export class EventData<T> extends React.Component<{
+export class EventData<T = any> extends React.Component<{
   toDataRef: (
     eventRef: firebase.database.Reference
   ) => firebase.database.Reference
@@ -31,4 +31,25 @@ export class EventData<T> extends React.Component<{
       </eventContext.Consumer>
     )
   }
+}
+
+export function unwrapData<T>(
+  state: FirebaseDataState<T>,
+  render: (data: T) => React.ReactNode,
+  thingName: React.ReactNode = 'data'
+) {
+  if (state.status === FirebaseDataStatus.Available) {
+    return render(state.data!)
+  }
+  if (state.status === FirebaseDataStatus.Pending) {
+    return <div>(Loading {thingName}...)</div>
+  }
+  if (state.status === FirebaseDataStatus.Error) {
+    return (
+      <div>
+        <strong>Error!</strong> {`${state.error}`}
+      </div>
+    )
+  }
+  throw new Error('!')
 }
