@@ -4,7 +4,9 @@ path /events/{eventId} {
     write() { isEventAdmin(eventId) }
   }
   path /keys is Keys {}
-  path /admins/{userId} is Boolean {}
+  path /admins/{userId} is Boolean {
+    read() { auth.uid === userId }
+  }
   path /attendees/{attendeeId} is Attendee {
     read() { isStaff(eventId) }
   }
@@ -27,12 +29,17 @@ type Staff {
 }
 
 type Attendee {
+  // Display name
+  displayName: String,
+
+  // Extra information
   info: Any | Null
 }
 
 type FulfillmentJob {
   time: Number,
   refcode: String,
+  displayName: String,
   info: Any | Null
 }
 

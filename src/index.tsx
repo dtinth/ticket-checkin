@@ -11,7 +11,7 @@ class App extends React.Component {
     return (
       <div>
         <Switch>
-          <Route exact path="/" component={HomePage} />
+          <Route exact path="/events/:eventId" component={HomePage} />
           <Route component={NoMatch} />
         </Switch>
       </div>

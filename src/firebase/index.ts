@@ -45,7 +45,9 @@ export class FirebaseAuth extends React.Component<
     retry: () => this.retry()
   }
   retry() {
-    this.observe()
+    if (this.state.status === FirebaseAuthStatus.Error) {
+      this.observe()
+    }
   }
   observe() {
     this.unsubscribe = this.auth.onAuthStateChanged(
@@ -70,6 +72,83 @@ export class FirebaseAuth extends React.Component<
   }
   componentWillUnmount() {
     this.unsubscribe()
+  }
+  render() {
+    return this.props.children(this.state)
+  }
+}
+
+export enum FirebaseDataStatus {
+  Pending = 'pending',
+  Available = 'available',
+  Error = 'error'
+}
+
+export interface FirebaseDataState<T> {
+  status: FirebaseDataStatus
+  data: T | null
+  error: Error | null
+  retry: () => any
+}
+
+export class FirebaseData<T = any> extends React.Component<
+  {
+    dataRef: firebase.database.Reference
+    children: (dataState: FirebaseDataState<T>) => React.ReactNode
+  },
+  FirebaseDataState<T>
+> {
+  private dataRef?: firebase.database.Reference
+  state = {
+    status: FirebaseDataStatus.Pending,
+    data: null,
+    error: null,
+    retry: () => this.retry()
+  }
+
+  componentDidMount() {
+    this.setDataRef(this.props.dataRef)
+  }
+
+  setDataRef(ref: firebase.database.Reference) {
+    if (this.dataRef) {
+      this.dataRef.off('value', this.onUpdate)
+    }
+    this.dataRef = ref
+    ref.on('value', this.onUpdate, this.onError)
+    this.setState({ status: FirebaseDataStatus.Pending })
+  }
+
+  componentWillUnmount() {
+    if (this.dataRef) {
+      this.dataRef.off('value', this.onUpdate)
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!this.props.dataRef.isEqual(prevProps.dataRef)) {
+      this.setDataRef(prevProps.dataRef)
+    }
+  }
+
+  retry() {
+    if (this.dataRef && this.state.status === FirebaseDataStatus.Error) {
+      this.setDataRef(this.dataRef)
+    }
+  }
+
+  onUpdate = snapshot => {
+    this.setState({
+      status: FirebaseDataStatus.Available,
+      data: snapshot.val() as T,
+      error: null
+    })
+  }
+  onError = error => {
+    this.setState({
+      status: FirebaseDataStatus.Error,
+      error
+    })
   }
   render() {
     return this.props.children(this.state)
