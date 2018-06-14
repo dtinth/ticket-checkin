@@ -2,6 +2,7 @@ import React from 'react'
 import QrReader from 'react-qr-reader'
 import { Panel, VBox, HBox, Button } from '../ui'
 import { flashError, flashSuccess } from '../flash-message'
+import { Description } from './Description'
 
 export class CodeScannerPanel extends React.Component<
   {},
@@ -30,6 +31,10 @@ export class CodeScannerPanel extends React.Component<
     return (
       <Panel title="Code scanner">
         <VBox>
+          <Description>
+            This panel exists for the purpose of simply testing the QR code
+            reader :)
+          </Description>
           <HBox>
             <Button disabled={enabled} onClick={this.onEnable}>
               Enable

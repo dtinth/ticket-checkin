@@ -17,6 +17,10 @@ export class HomePage extends React.Component<{ match: any }> {
       <eventContext.Provider value={this.props.match.params.eventId}>
         <div style={{ margin: '20px' }}>
           <h1>ticket-checkin</h1>
+          <p>
+            This page provides all the available functionality in the{' '}
+            <strong>ticket-checkin</strong> application.
+          </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', margin: -10 }}>
             <div style={column}>
               <div style={item}>
@@ -31,19 +35,19 @@ export class HomePage extends React.Component<{ match: any }> {
             </div>
             <div style={column}>
               <div style={item}>
-                <CodeScannerPanel />
+                <SelfCheckinPanel />
               </div>
               <div style={item}>
                 <AttendeeTotpPanel />
-              </div>
-              <div style={item}>
-                <SelfCheckinPanel />
               </div>
               <div style={item}>
                 <ManualCheckinPanel />
               </div>
               <div style={item}>
                 <KioskCheckInPanel />
+              </div>
+              <div style={item}>
+                <CodeScannerPanel />
               </div>
             </div>
           </div>

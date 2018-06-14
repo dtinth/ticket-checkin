@@ -4,6 +4,7 @@ import { Panel, VBox, HBox, Button } from '../ui'
 import { flashError } from '../flash-message'
 import { KioskCheckInController } from '../checkin-kiosk'
 import { inspect } from 'util'
+import { Description } from './Description'
 
 export class KioskCheckInPanel extends React.Component<
   {},
@@ -27,6 +28,10 @@ export class KioskCheckInPanel extends React.Component<
     return (
       <Panel title="Kiosk check-in">
         <VBox>
+          <Description>
+            The <strong>kiosk check-in</strong> method allows attendees to check
+            in by showing their QR code to the check-in kiosk.
+          </Description>
           <HBox>
             <Button disabled={enabled} onClick={this.onEnable}>
               Enable
