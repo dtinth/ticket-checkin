@@ -7,6 +7,7 @@ import {
   FirebaseAuthStatus
 } from '../firebase'
 import Track from 'react-pledge'
+import { Description } from './Description'
 
 export class AuthenticationPanel extends React.Component {
   emailInput: HTMLInputElement
@@ -24,6 +25,9 @@ export class AuthenticationPanel extends React.Component {
     const authenticated = authState.status === FirebaseAuthStatus.Authenticated
     return (
       <VBox>
+        <Description>
+          You need to authenticate to use the administrative functionalities.
+        </Description>
         <HBox alignItems="baseline">
           <span>
             Status: <strong>{authState.status}</strong>

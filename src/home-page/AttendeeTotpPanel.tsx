@@ -1,9 +1,12 @@
 import React from 'react'
-import { Panel, VBox } from '../ui'
+import { Panel, VBox, ErrorMessage, Loading } from '../ui'
 import { AdminOnly } from '../event-admin'
-import { EventData, unwrapData } from '../event-data'
-import { authenticator } from '../totp'
 import { Description } from './Description'
+import {
+  AttendeeTotpController,
+  AttendeeTotpState,
+  AttendeeTotpStatus
+} from '../attendee-totp'
 export class AttendeeTotpPanel extends React.Component {
   render() {
     return (
@@ -15,41 +18,34 @@ export class AttendeeTotpPanel extends React.Component {
           </Description>
           <AdminOnly>
             {() => (
-              <EventData toDataRef={r => r.child('keys').child('attendee')}>
-                {state =>
-                  unwrapData(state, key => this.renderTotp(key), 'TOTP key')
-                }
-              </EventData>
+              <AttendeeTotpController>
+                {state => this.renderContents(state)}
+              </AttendeeTotpController>
             )}
           </AdminOnly>
         </VBox>
       </Panel>
     )
   }
-  renderTotp(key: string) {
-    return (
-      <div
-        style={{
-          textAlign: 'center',
-          fontSize: '2em',
-          letterSpacing: '0.5ex'
-        }}
-      >
-        <Totp totpKey={key} />
-      </div>
-    )
-  }
-}
-
-class Totp extends React.Component<{ totpKey: string }> {
-  interval: number
-  render() {
-    return authenticator.generate(this.props.totpKey)
-  }
-  componentDidMount() {
-    this.interval = window.setInterval(() => this.forceUpdate(), 2500)
-  }
-  componentWillUnmount() {
-    window.clearInterval(this.interval)
+  renderContents(state: AttendeeTotpState) {
+    if (state.status === AttendeeTotpStatus.Initializing) {
+      return <Loading>Loading TOTP</Loading>
+    } else if (state.status === AttendeeTotpStatus.InitializationError) {
+      return (
+        <ErrorMessage>Cannot initialize TOTP: {`${state.error}`}</ErrorMessage>
+      )
+    } else {
+      return (
+        <div
+          style={{
+            textAlign: 'center',
+            fontSize: '2em',
+            letterSpacing: '0.5ex'
+          }}
+        >
+          {state.totp}
+        </div>
+      )
+    }
   }
 }

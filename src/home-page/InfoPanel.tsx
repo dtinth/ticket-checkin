@@ -36,9 +36,9 @@ export class InfoPanel extends React.Component {
         <div>
           Latest people to check in:
           <ul>
-            {list.map(({ refCode, checkIn }) => (
-              <li>
-                <AttendeeName refCode={refCode} />
+            {list.slice(0, 15).map(({ refCode, checkIn }, i) => (
+              <li key={refCode}>
+                #{list.length - i}: <AttendeeName refCode={refCode} />
               </li>
             ))}
           </ul>

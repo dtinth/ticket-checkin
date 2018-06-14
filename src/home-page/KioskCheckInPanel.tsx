@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import QrReader from 'react-qr-reader'
 import { Panel, VBox, HBox, Button } from '../ui'
 import { flashError } from '../flash-message'
 import { KioskCheckInController } from '../checkin-kiosk'
 import { inspect } from 'util'
 import { Description } from './Description'
+import { AdminOnly } from '../event-admin'
 
 export class KioskCheckInPanel extends React.Component<
   {},
@@ -32,15 +33,21 @@ export class KioskCheckInPanel extends React.Component<
             The <strong>kiosk check-in</strong> method allows attendees to check
             in by showing their QR code to the check-in kiosk.
           </Description>
-          <HBox>
-            <Button disabled={enabled} onClick={this.onEnable}>
-              Enable
-            </Button>
-            <Button disabled={!enabled} onClick={this.onDisable}>
-              Disable
-            </Button>
-          </HBox>
-          {enabled && this.renderQRReader()}
+          <AdminOnly>
+            {() => (
+              <Fragment>
+                <HBox>
+                  <Button disabled={enabled} onClick={this.onEnable}>
+                    Enable
+                  </Button>
+                  <Button disabled={!enabled} onClick={this.onDisable}>
+                    Disable
+                  </Button>
+                </HBox>
+                {enabled && this.renderQRReader()}
+              </Fragment>
+            )}
+          </AdminOnly>
         </VBox>
       </Panel>
     )

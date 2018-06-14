@@ -7,7 +7,7 @@ import {
   FirebaseDataStatus
 } from '../firebase'
 import { eventContext } from '../event-context'
-import { Loading } from '../ui'
+import { Loading, ErrorMessage } from '../ui'
 
 export class AdminOnly extends React.Component<{
   children: (user: firebase.User) => React.ReactNode
@@ -48,13 +48,13 @@ export class AdminOnly extends React.Component<{
     )
   }
   renderPending() {
-    return (
-      <div>
-        <Loading>Checking access rights...</Loading>
-      </div>
-    )
+    return <Loading>Checking access rights...</Loading>
   }
   renderUnauthorized() {
-    return <div>(You must be an admin to view this section.)</div>
+    return (
+      <ErrorMessage>
+        Unauthorized — You must be an admin to view this section.
+      </ErrorMessage>
+    )
   }
 }
