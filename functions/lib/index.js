@@ -63,11 +63,11 @@ exports.checkIn = functions.https.onRequest((request, response) => {
                 response.json({ checkIn, attendee });
                 return;
             }
-            checkIn = {
+            yield checkInRef.set({
                 time: admin.database.ServerValue.TIMESTAMP,
                 mode: 'self'
-            };
-            yield checkInRef.set(checkIn);
+            });
+            checkIn = (yield checkInRef.once('value')).val();
             response.json({ checkIn, attendee });
         }
         catch (e) {

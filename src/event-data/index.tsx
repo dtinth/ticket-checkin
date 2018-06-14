@@ -12,7 +12,10 @@ export class EventData<T = any> extends React.Component<{
   toDataRef: (
     eventRef: firebase.database.Reference
   ) => firebase.database.Reference
-  children: (state: FirebaseDataState<T>) => React.ReactNode
+  children: (
+    state: FirebaseDataState<T>,
+    ref: firebase.database.Reference
+  ) => React.ReactNode
 }> {
   render() {
     return (

@@ -11,6 +11,7 @@ path /events/{eventId} {
     read() { isStaff(eventId) }
   }
   path /checkins/{attendeeId} is CheckIn {
+    write() { isEventAdmin(eventId) }
     read() { isStaff(eventId) }
   }
   path /staffs/{staffId} is Staff {

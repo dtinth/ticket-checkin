@@ -94,7 +94,10 @@ export interface FirebaseDataState<T> {
 export class FirebaseData<T = any> extends React.Component<
   {
     dataRef: firebase.database.Reference
-    children: (dataState: FirebaseDataState<T>) => React.ReactNode
+    children: (
+      dataState: FirebaseDataState<T>,
+      ref: firebase.database.Reference
+    ) => React.ReactNode
   },
   FirebaseDataState<T>
 > {
@@ -151,7 +154,7 @@ export class FirebaseData<T = any> extends React.Component<
     })
   }
   render() {
-    return this.props.children(this.state)
+    return this.props.children(this.state, this.props.dataRef)
   }
 }
 

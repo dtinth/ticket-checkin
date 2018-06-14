@@ -50,11 +50,12 @@ export const checkIn = functions.https.onRequest((request, response) => {
         return
       }
 
-      checkIn = {
+      await checkInRef.set({
         time: admin.database.ServerValue.TIMESTAMP,
         mode: 'self'
-      }
-      await checkInRef.set(checkIn)
+      })
+      checkIn = (await checkInRef.once('value')).val()
+
       response.json({ checkIn, attendee })
     } catch (e) {
       response.status(500).send('WTF?')

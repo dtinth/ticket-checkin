@@ -1,9 +1,9 @@
 import React from 'react'
-import { Panel, HBox, TextField, Button } from '../ui'
-import { eventContext } from '../event-context'
 import Track from 'react-pledge'
+import { checkIn } from '../checkin-self'
+import { eventContext } from '../event-context'
 import { flashError, flashSuccess } from '../flash-message'
-import { checkIn } from '../attendee-self-check-in'
+import { Button, HBox, Panel, TextField } from '../ui'
 
 export class SelfCheckinPanel extends React.Component {
   refCodeField: any
@@ -48,11 +48,11 @@ export class SelfCheckinPanel extends React.Component {
       const refCode = this.refCodeField.value
       const totp = this.totpField.value
       const result = await checkIn(refCode, totp, eventId)
-      if (result.data.error) {
-        flashError(`Check in failure: ${result.data.error}`)
+      if ('error' in result) {
+        flashError(`Check in failure: ${result.error}`)
         return
       }
-      flashSuccess(JSON.stringify(result.data))
+      flashSuccess(JSON.stringify(result))
     } catch (e) {
       flashError(`Cannot check in: ${e}`)
     }

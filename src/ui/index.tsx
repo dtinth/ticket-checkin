@@ -91,3 +91,13 @@ const Spinner = styled('div')({
   borderLeftColor: 'transparent',
   animation: `0.2s ${rotateAnimation} linear infinite`
 })
+
+export class ErrorMessage extends React.Component {
+  render() {
+    return (
+      <div style={{ padding: 10, background: '#944', color: '#fff' }}>
+        {this.props.children}
+      </div>
+    )
+  }
+}

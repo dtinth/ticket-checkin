@@ -7,6 +7,7 @@ import { CodeScannerPanel } from './CodeScannerPanel'
 import { AttendeeTotpPanel } from './AttendeeTotpPanel'
 import { SelfCheckinPanel } from './SelfCheckinPanel'
 import { ManualCheckinPanel } from './ManualCheckinPanel'
+import { KioskCheckInPanel } from './KioskCheckInPanel'
 
 export class HomePage extends React.Component<{ match: any }> {
   render() {
@@ -40,6 +41,9 @@ export class HomePage extends React.Component<{ match: any }> {
               </div>
               <div style={item}>
                 <ManualCheckinPanel />
+              </div>
+              <div style={item}>
+                <KioskCheckInPanel />
               </div>
             </div>
           </div>
