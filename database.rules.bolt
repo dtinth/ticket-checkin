@@ -1,0 +1,40 @@
+path /events/{eventId} {
+  read() { isEventAdmin(eventId) }
+  path /info {
+    write() { isEventAdmin(eventId) }
+  }
+  path /keys is Keys {}
+  path /admins/{userId} is Boolean {}
+  path /attendees/{attendeeId} is Attendee {
+    read() { isStaff(eventId) }
+  }
+  path /staffs/{staffId} is Staff {
+    read() { isStaff(eventId) }
+  }
+}
+
+type Keys {
+  attendee: String,
+  staff: String
+}
+
+type Staff {
+  // If available for fulfillment, then put a unique ID here
+  available: String | Null,
+
+  // Filfillment jobs
+  jobs: Map<String, FulfillmentJob>
+}
+
+type Attendee {
+  info: Any | Null
+}
+
+type FulfillmentJob {
+  time: Number,
+  refcode: String,
+  info: Any | Null
+}
+
+isEventAdmin(eventId) { root.events[eventId].admins[auth.uid] != null }
+isStaff(eventId) { root.events[eventId] }

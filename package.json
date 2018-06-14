@@ -4,9 +4,18 @@
   "private": true,
   "dependencies": {
     "antd": "^3.6.2",
+    "emotion": "^9.2.3",
+    "firebase": "^5.0.4",
+    "noty": "^3.2.0-beta",
+    "otp.js": "^1.1.0",
+    "otplib": "^9.0.0",
     "patternfly-react": "^2.6.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-emotion": "^9.2.3",
+    "react-pledge": "^0.1.1",
+    "react-qr-reader": "^2.1.0",
+    "react-router-dom": "^4.3.1",
     "react-scripts-ts": "2.16.0"
   },
   "scripts": {
