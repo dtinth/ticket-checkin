@@ -37,10 +37,10 @@ exports.checkIn = functions.https.onRequest((request, response) => {
                 .child('keys')
                 .child('attendee')
                 .once('value')).val();
-            const tokenValid = authenticator_1.default.check({
-                secret: key,
-                token: `${totp}`
-            });
+            if (!key) {
+                throw new Error('WTF? No key is found!!');
+            }
+            const tokenValid = authenticator_1.default.check(`${totp}`, key);
             if (!tokenValid) {
                 response.json({
                     error: 'ETOKEN'

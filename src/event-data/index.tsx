@@ -6,6 +6,7 @@ import {
   FirebaseDataStatus
 } from '../firebase'
 import { eventContext } from '../event-context'
+import { Loading } from '../ui'
 
 export class EventData<T = any> extends React.Component<{
   toDataRef: (
@@ -42,7 +43,11 @@ export function unwrapData<T>(
     return render(state.data!)
   }
   if (state.status === FirebaseDataStatus.Pending) {
-    return <div>(Loading {thingName}...)</div>
+    return (
+      <div>
+        <Loading>Loading {thingName}...</Loading>
+      </div>
+    )
   }
   if (state.status === FirebaseDataStatus.Error) {
     return (

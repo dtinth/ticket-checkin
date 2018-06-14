@@ -19,11 +19,11 @@ export const checkIn = functions.https.onRequest((request, response) => {
         .child('keys')
         .child('attendee')
         .once('value')).val()
+      if (!key) {
+        throw new Error('WTF? No key is found!!')
+      }
 
-      const tokenValid = authenticator.check({
-        secret: key,
-        token: `${totp}`
-      })
+      const tokenValid = authenticator.check(`${totp}`, key)
       if (!tokenValid) {
         response.json({
           error: 'ETOKEN'

@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'react-emotion'
+import styled, { keyframes } from 'react-emotion'
 import { Fonts } from '../design'
 
 export const Button = styled('button')({
@@ -63,4 +63,31 @@ const Fieldset = styled('fieldset')({
     textTransform: 'uppercase',
     fontFamily: Fonts.display
   }
+})
+
+export class Loading extends React.Component {
+  render() {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <Spinner />
+        <br />
+        {this.props.children}
+      </div>
+    )
+  }
+}
+
+const rotateAnimation = keyframes({
+  from: { transform: 'rotate(0)' },
+  to: { transform: 'rotate(360deg)' }
+})
+
+const Spinner = styled('div')({
+  display: 'inline-block',
+  width: 30,
+  height: 30,
+  borderRadius: 30,
+  border: '10px solid #777',
+  borderLeftColor: 'transparent',
+  animation: `0.2s ${rotateAnimation} linear infinite`
 })

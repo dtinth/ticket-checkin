@@ -1,7 +1,7 @@
 import React from 'react'
 import QrReader from 'react-qr-reader'
-import Noty from 'noty'
 import { Panel, VBox, HBox, Button } from '../ui'
+import { flashError, flashSuccess } from '../flash-message'
 
 export class CodeScannerPanel extends React.Component<
   {},
@@ -11,17 +11,13 @@ export class CodeScannerPanel extends React.Component<
     enabled: false
   }
   handleError = e => {
-    new Noty({ text: `Error scanning: ${e}`, type: 'error' }).show()
+    flashError(`Cannot scan QR: ${e}`)
   }
   handleScan = c => {
     if (!c) {
       return
     }
-    new Noty({
-      text: `Scanned QR code: ${c}`,
-      type: 'success',
-      timeout: 3000
-    }).show()
+    flashSuccess(`Scanned QR code: ${c}`)
   }
   onEnable = e => {
     this.setState({ enabled: true })
