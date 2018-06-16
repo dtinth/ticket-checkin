@@ -61,12 +61,35 @@ const panels: { [k: string]: IControlPanel } = {
 }
 
 export class HomePage extends React.Component<{ match: any }> {
+  timeout: number
+  state = { mobile: true }
+  checkViewport = () => {
+    const mobile = window.innerWidth < 768
+    if (mobile !== this.state.mobile) {
+      this.setState({ mobile })
+    }
+  }
+  componentDidMount() {
+    this.timeout = window.setTimeout(this.checkViewport)
+    window.addEventListener('resize', this.checkViewport)
+  }
+  componentWillUnmount() {
+    window.clearTimeout(this.timeout)
+    window.removeEventListener('resize', this.checkViewport)
+  }
   render() {
     return (
       <eventContext.Provider value={this.props.match.params.eventId}>
-        <MobileControlPanel activePanel={this.props.match.params.activePanel} />
+        {this.renderContent()}
       </eventContext.Provider>
     )
+  }
+  renderContent() {
+    const activePanelKey = this.props.match.params.activePanel
+    if (this.state.mobile || activePanelKey) {
+      return <MobileControlPanel activePanel={activePanelKey} />
+    }
+    return <DesktopControlPanel />
   }
 }
 
@@ -100,7 +123,6 @@ class DesktopControlPanel extends React.Component {
     )
   }
 }
-void DesktopControlPanel
 
 class MobileControlPanel extends React.Component<{ activePanel?: string }> {
   render() {
