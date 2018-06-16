@@ -2,6 +2,10 @@ import React from 'react'
 import styled, { keyframes } from 'react-emotion'
 import { Fonts } from '../design'
 
+export const InternalPageLayout = styled('div')({
+  padding: 20
+})
+
 export const Button = styled('button')({
   font: 'inherit',
   border: '1px solid #00d8ff',
