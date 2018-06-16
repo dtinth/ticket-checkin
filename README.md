@@ -6,15 +6,57 @@ Ticket check-in system, for events
 
 - **Multiple check-in modes:**
 
-  - Self check-in: Attendee checks in by ~~sending a POST request to Firebase
-    cloud function~~ entering ticket reference ID + time-based OTP.
-
-  - Kiosk check-in: Attendee presents ticket QR code to check in at the kiosk.
-
-  - Staff check-in: Staff uses a mobile PWA to check in attendees.
-
-  - Manual check-in: Staff searches for attendee’s information and checks in
-    manually.
+  <table>
+    <tr>
+      <th>Check-in mode</th>
+      <th>Pros</th>
+      <th>Cons</th>
+    </tr>
+    <tr>
+      <td>
+        <strong>Self check-in</strong><br />
+        Attendee checks in by entering ticket refCode + time-based OTP.
+      </td>
+      <td>
+        ◆ No need to wait in line.<br />
+        ◆ Self-service.<br />
+        ◆ Attendee gets a personal greeting.
+      </td>
+      <td>
+        ◆ Unfamiliar method.<br />
+        ◆ Requires attendee to have a mobile device to check in.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>Kiosk check-in</strong><br />
+        Attendee presents ticket QR code to check in at the kiosk.
+      </td>
+      <td>
+        ◆ Works with printed tickets.<br />
+        ◆ Self-service.<br />
+        ◆ Attendee gets a personal greeting.
+      </td>
+      <td>
+        ◆ Have to wait in line to use the kiosk.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <strong>Staff check-in</strong><br />
+        Staff uses a mobile PWA to check attendees in using QR code.
+      </td>
+      <td>
+        ◆ No need to wait in line.<br />
+        ◆ Works with printed tickets.
+      </td>
+      <td>
+        ◆ Needs manual work by staff.<br />
+        ◆ Have to wait for an available staff.<br />
+        ◆ Attendees don’t get a personal greeting.
+      </td>
+    </tr>
+  </table>
 
 - **Swag fulfillment:**
 
