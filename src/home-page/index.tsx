@@ -8,7 +8,7 @@ import { AttendeeTotpPanel } from './AttendeeTotpPanel'
 import { SelfCheckinPanel } from './SelfCheckinPanel'
 import { ManualCheckinPanel } from './ManualCheckinPanel'
 import { KioskCheckInPanel } from './KioskCheckInPanel'
-import { InternalPageLayout } from '../ui'
+import { InternalPageLayout, Panel } from '../ui'
 
 const panels = [
   { title: 'Navigation', component: NavigationPanel, side: 'left' },
@@ -40,9 +40,11 @@ class DesktopHomePanel extends React.Component {
     const renderPanels = side =>
       panels
         .filter(p => p.side === side)
-        .map(({ component: PanelComponent }, i) => (
+        .map(({ component: PanelComponent, title }, i) => (
           <div style={item} key={i}>
-            <PanelComponent />
+            <Panel title={title}>
+              <PanelComponent />
+            </Panel>
           </div>
         ))
     return (

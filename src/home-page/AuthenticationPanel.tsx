@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react'
-import { Panel, VBox, HBox, Button, TextField, BoxItem } from '../ui'
+import Track from 'react-pledge'
 import {
+  firebase,
   FirebaseAuth,
   FirebaseAuthState,
-  firebase,
   FirebaseAuthStatus
 } from '../firebase'
-import Track from 'react-pledge'
+import { BoxItem, Button, HBox, TextField, VBox } from '../ui'
 import { Description } from './Description'
 
 export class AuthenticationPanel extends React.Component {
@@ -14,11 +14,7 @@ export class AuthenticationPanel extends React.Component {
   passwordInput: HTMLInputElement
   render() {
     return (
-      <Panel title="Authentication">
-        <FirebaseAuth>
-          {authState => this.renderContent(authState)}
-        </FirebaseAuth>
-      </Panel>
+      <FirebaseAuth>{authState => this.renderContent(authState)}</FirebaseAuth>
     )
   }
   renderContent(authState: FirebaseAuthState) {

@@ -1,30 +1,28 @@
 import React from 'react'
-import { Panel, VBox, ErrorMessage, Loading } from '../ui'
-import { AdminOnly } from '../event-admin'
-import { Description } from './Description'
 import {
   AttendeeTotpController,
   AttendeeTotpState,
   AttendeeTotpStatus
 } from '../attendee-totp'
+import { AdminOnly } from '../event-admin'
+import { ErrorMessage, Loading, VBox } from '../ui'
+import { Description } from './Description'
 export class AttendeeTotpPanel extends React.Component {
   render() {
     return (
-      <Panel title="Attendee TOTP">
-        <VBox>
-          <Description>
-            Attendees must provide the following TOTP code to perform a
-            self-checkin.
-          </Description>
-          <AdminOnly>
-            {() => (
-              <AttendeeTotpController>
-                {state => this.renderContents(state)}
-              </AttendeeTotpController>
-            )}
-          </AdminOnly>
-        </VBox>
-      </Panel>
+      <VBox>
+        <Description>
+          Attendees must provide the following TOTP code to perform a
+          self-checkin.
+        </Description>
+        <AdminOnly>
+          {() => (
+            <AttendeeTotpController>
+              {state => this.renderContents(state)}
+            </AttendeeTotpController>
+          )}
+        </AdminOnly>
+      </VBox>
     )
   }
   renderContents(state: AttendeeTotpState) {

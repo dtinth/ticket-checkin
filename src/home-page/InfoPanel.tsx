@@ -1,25 +1,23 @@
 import React, { ReactNode } from 'react'
-import { Panel, VBox } from '../ui'
 import { AdminOnly } from '../event-admin'
 import { EventData, unwrapData } from '../event-data'
+import { VBox } from '../ui'
 export class InfoPanel extends React.Component {
   render() {
     return (
-      <Panel title="Information">
-        <AdminOnly>
-          {() => (
-            <EventData toDataRef={r => r.child('checkins')}>
-              {data =>
-                unwrapData(
-                  data,
-                  checkIns => this.renderContents(checkIns || {}),
-                  'checkins'
-                )
-              }
-            </EventData>
-          )}
-        </AdminOnly>
-      </Panel>
+      <AdminOnly>
+        {() => (
+          <EventData toDataRef={r => r.child('checkins')}>
+            {data =>
+              unwrapData(
+                data,
+                checkIns => this.renderContents(checkIns || {}),
+                'checkins'
+              )
+            }
+          </EventData>
+        )}
+      </AdminOnly>
     )
   }
   renderContents(checkIns: {
