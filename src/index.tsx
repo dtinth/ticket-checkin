@@ -21,6 +21,11 @@ class App extends React.Component {
             path="/events/:eventId/kiosk-playground"
             component={KioskPlaygroundPage}
           />
+          <Route
+            exact
+            path="/events/:eventId/:activePanel"
+            component={HomePage}
+          />
           <Route component={NoMatch} />
         </Switch>
       </div>
