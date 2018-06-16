@@ -12,6 +12,7 @@ class App extends React.Component {
     return (
       <div>
         <Switch>
+          <Route exact path="/" component={IndexPage} />
           <Route exact path="/events/:eventId" component={HomePage} />
           <Route exact path="/events/:eventId/kiosk" component={KioskPage} />
           <Route
@@ -21,6 +22,16 @@ class App extends React.Component {
           />
           <Route component={NoMatch} />
         </Switch>
+      </div>
+    )
+  }
+}
+class IndexPage extends React.Component {
+  render() {
+    return (
+      <div>
+        Welcome to ticket-checkin.<br />
+        <Link to="/events/reactbkk3">reactbkk3</Link>
       </div>
     )
   }
