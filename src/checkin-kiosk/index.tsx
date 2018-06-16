@@ -3,7 +3,7 @@ import React from 'react'
 import { EventData } from '../event-data'
 import { firebase, FirebaseDataState } from '../firebase'
 
-enum KioskCheckInStatus {
+export enum KioskCheckInStatus {
   Initializing = 'initializing',
   InitializationError = 'initialization error',
   Ready = 'ready',
@@ -11,7 +11,7 @@ enum KioskCheckInStatus {
   NotFound = 'not found'
 }
 
-interface KioskCheckInState {
+export interface KioskCheckInState {
   status: KioskCheckInStatus
   error?: Error
   attendee?: IAttendee | null
@@ -37,7 +37,7 @@ export class KioskCheckInController extends React.Component<{
   }
 }
 
-interface IAttendee {
+export interface IAttendee {
   displayName: string
   info: any
 }

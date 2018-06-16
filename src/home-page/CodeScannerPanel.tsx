@@ -35,12 +35,12 @@ export class CodeScannerPanel extends React.Component<
             This panel exists for the purpose of simply testing the QR code
             reader :)
           </Description>
-          <HBox>
+          <HBox wrap>
             <Button disabled={enabled} onClick={this.onEnable}>
-              Enable
+              Enable QR code reader
             </Button>
             <Button disabled={!enabled} onClick={this.onDisable}>
-              Disable
+              Disable QR code reader
             </Button>
           </HBox>
           {enabled && this.renderQRReader()}

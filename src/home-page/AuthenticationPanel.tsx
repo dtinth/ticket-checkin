@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Panel, VBox, HBox, Button, TextField } from '../ui'
+import { Panel, VBox, HBox, Button, TextField, BoxItem } from '../ui'
 import {
   FirebaseAuth,
   FirebaseAuthState,
@@ -25,57 +25,63 @@ export class AuthenticationPanel extends React.Component {
     const authenticated = authState.status === FirebaseAuthStatus.Authenticated
     return (
       <VBox>
-        <Description>
-          You need to authenticate to use the administrative functionalities.
-        </Description>
-        <HBox alignItems="baseline">
-          <span>
-            Status: <strong>{authState.status}</strong>
-            {!!authState.user && (
-              <Fragment>
-                {' '}
-                as {authState.user.displayName || authState.user.email}
-              </Fragment>
-            )}
-          </span>
-          <Button disabled={!authenticated} onClick={this.logout}>
-            Log out
-          </Button>
-        </HBox>
+        <BoxItem>
+          <Description>
+            You need to authenticate to use the administrative functionalities.
+          </Description>
+        </BoxItem>
+        <BoxItem>
+          <HBox alignItems="baseline" wrap>
+            <span>
+              Status: <strong>{authState.status}</strong>
+              {!!authState.user && (
+                <Fragment>
+                  {' '}
+                  as {authState.user.displayName || authState.user.email}
+                </Fragment>
+              )}
+            </span>
+            <Button disabled={!authenticated} onClick={this.logout}>
+              Log out
+            </Button>
+          </HBox>
+        </BoxItem>
         <Track promise={this.login}>
           {(submit, { pending, resolved, rejected, error }) => (
             <form onSubmit={submit}>
-              <VBox>
-                <HBox>
-                  <label>
-                    Email:{' '}
-                    <TextField
-                      disabled={authenticated}
-                      size={15}
-                      innerRef={el => (this.emailInput = el)}
-                    />
-                  </label>
-                  <label>
-                    Password:{' '}
-                    <TextField
-                      disabled={authenticated}
-                      size={15}
-                      innerRef={el => (this.passwordInput = el)}
-                      type="password"
-                    />
-                  </label>
-                  <Button disabled={pending || authenticated}>Login</Button>
-                </HBox>
-                <div>
-                  [{pending
-                    ? 'Signing in...'
-                    : resolved
-                      ? 'Success'
-                      : rejected
-                        ? `${error}`
-                        : '-'}]
-                </div>
-              </VBox>
+              <BoxItem>
+                <VBox>
+                  <HBox wrap>
+                    <label>
+                      Email:{' '}
+                      <TextField
+                        disabled={authenticated}
+                        size={15}
+                        innerRef={el => (this.emailInput = el)}
+                      />
+                    </label>
+                    <label>
+                      Password:{' '}
+                      <TextField
+                        disabled={authenticated}
+                        size={15}
+                        innerRef={el => (this.passwordInput = el)}
+                        type="password"
+                      />
+                    </label>
+                    <Button disabled={pending || authenticated}>Login</Button>
+                  </HBox>
+                  <div>
+                    [{pending
+                      ? 'Signing in...'
+                      : resolved
+                        ? 'Success'
+                        : rejected
+                          ? `${error}`
+                          : '-'}]
+                  </div>
+                </VBox>
+              </BoxItem>
             </form>
           )}
         </Track>

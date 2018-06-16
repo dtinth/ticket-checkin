@@ -5,6 +5,7 @@ import 'noty/lib/themes/mint.css'
 import ReactDOM from 'react-dom'
 import { HashRouter, Route, Switch, Link } from 'react-router-dom'
 import { HomePage } from './home-page'
+import { KioskPage, KioskPlaygroundPage } from './kiosk'
 
 class App extends React.Component {
   render() {
@@ -12,6 +13,12 @@ class App extends React.Component {
       <div>
         <Switch>
           <Route exact path="/events/:eventId" component={HomePage} />
+          <Route exact path="/events/:eventId/kiosk" component={KioskPage} />
+          <Route
+            exact
+            path="/events/:eventId/kiosk-playground"
+            component={KioskPlaygroundPage}
+          />
           <Route component={NoMatch} />
         </Switch>
       </div>

@@ -30,12 +30,16 @@ export const TextField = styled('input')({
 export const HBox = styled('div')(
   {
     display: 'flex',
-    '& > *:not(:first-child)': {
-      marginLeft: '10px'
+    marginLeft: '-10px',
+    marginTop: '-10px',
+    '& > *': {
+      marginLeft: '10px',
+      marginTop: '10px'
     }
   },
-  (props: { alignItems?: string }) => ({
-    alignItems: props.alignItems
+  (props: { alignItems?: string; wrap?: boolean }) => ({
+    alignItems: props.alignItems,
+    flexWrap: props.wrap ? 'wrap' : 'nowrap'
   })
 )
 
@@ -44,6 +48,8 @@ export const VBox = styled('div')({
     marginTop: '10px'
   }
 })
+
+export const BoxItem = styled('div')()
 
 export class Panel extends React.Component<{ title: string }> {
   render() {

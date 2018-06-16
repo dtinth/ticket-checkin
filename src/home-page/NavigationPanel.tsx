@@ -8,8 +8,11 @@ export class NavigationPanel extends React.Component {
       <Panel title="Navigation">
         <eventContext.Consumer>
           {eventId => (
-            <HBox>
+            <HBox wrap>
               <Link to={`/events/${eventId}/kiosk`}>Kiosk</Link>
+              <Link to={`/events/${eventId}/kiosk-playground`}>
+                (Playground)
+              </Link>
               <Link to={`/events/${eventId}/staff`}>Staff check-in</Link>
               <Link to={`/events/${eventId}/fulfillment`}>Fulfillment</Link>
             </HBox>

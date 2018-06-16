@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import QrReader from 'react-qr-reader'
-import { Panel, VBox, HBox, Button } from '../ui'
+import { Panel, VBox, HBox, Button, BoxItem } from '../ui'
 import { flashError } from '../flash-message'
 import { KioskCheckInController } from '../checkin-kiosk'
 import { inspect } from 'util'
@@ -29,25 +29,29 @@ export class KioskCheckInPanel extends React.Component<
     return (
       <Panel title="Kiosk check-in">
         <VBox>
-          <Description>
-            The <strong>kiosk check-in</strong> method allows attendees to check
-            in by showing their QR code to the check-in kiosk.
-          </Description>
-          <AdminOnly>
-            {() => (
-              <Fragment>
-                <HBox>
-                  <Button disabled={enabled} onClick={this.onEnable}>
-                    Enable
-                  </Button>
-                  <Button disabled={!enabled} onClick={this.onDisable}>
-                    Disable
-                  </Button>
-                </HBox>
-                {enabled && this.renderQRReader()}
-              </Fragment>
-            )}
-          </AdminOnly>
+          <BoxItem>
+            <Description>
+              The <strong>kiosk check-in</strong> method allows attendees to
+              check in by showing their QR code to the check-in kiosk.
+            </Description>
+          </BoxItem>
+          <BoxItem>
+            <AdminOnly>
+              {() => (
+                <Fragment>
+                  <HBox wrap>
+                    <Button disabled={enabled} onClick={this.onEnable}>
+                      Enable QR code reader
+                    </Button>
+                    <Button disabled={!enabled} onClick={this.onDisable}>
+                      Disable QR code reader
+                    </Button>
+                  </HBox>
+                  {enabled && this.renderQRReader()}
+                </Fragment>
+              )}
+            </AdminOnly>
+          </BoxItem>
         </VBox>
       </Panel>
     )
@@ -58,14 +62,12 @@ export class KioskCheckInPanel extends React.Component<
         <KioskCheckInController>
           {state => (
             <VBox>
-              <RenderLater>
-                <QrReader
-                  delay={200}
-                  onError={this.handleError}
-                  onScan={code => code && state.handleRefCode(code)}
-                  facingMode="user"
-                />
-              </RenderLater>
+              <QrReader
+                delay={200}
+                onError={this.handleError}
+                onScan={code => code && state.handleRefCode(code)}
+                facingMode="user"
+              />
               <div>
                 <pre style={{ margin: 0, whiteSpace: 'pre-wrap' }}>
                   {inspect(state)}
@@ -76,19 +78,5 @@ export class KioskCheckInPanel extends React.Component<
         </KioskCheckInController>
       </div>
     )
-  }
-}
-
-class RenderLater extends React.Component {
-  state = {
-    ready: false
-  }
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({ ready: true })
-    })
-  }
-  render() {
-    return this.state.ready ? this.props.children : null
   }
 }
