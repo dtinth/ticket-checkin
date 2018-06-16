@@ -8,7 +8,7 @@ import { CodeScannerPanel } from './CodeScannerPanel'
 import { AttendeeTotpPanel } from './AttendeeTotpPanel'
 import { SelfCheckinPanel } from './SelfCheckinPanel'
 import { ManualCheckinPanel } from './ManualCheckinPanel'
-import { KioskCheckInPanel } from './KioskCheckInPanel'
+import { QRCheckinPanel } from './QRCheckinPanel'
 import { InternalPageLayout, Panel } from '../ui'
 
 interface IControlPanel {
@@ -30,7 +30,7 @@ const panels: { [k: string]: IControlPanel } = {
   },
   qr: {
     title: 'QR checkin',
-    component: KioskCheckInPanel,
+    component: QRCheckinPanel,
     side: 'right'
   },
   manual: {

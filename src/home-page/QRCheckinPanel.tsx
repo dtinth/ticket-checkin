@@ -7,10 +7,7 @@ import { flashError } from '../flash-message'
 import { BoxItem, Button, HBox, VBox } from '../ui'
 import { Description } from './Description'
 
-export class KioskCheckInPanel extends React.Component<
-  {},
-  { enabled: boolean }
-> {
+export class QRCheckinPanel extends React.Component<{}, { enabled: boolean }> {
   state = {
     enabled: false
   }
