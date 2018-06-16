@@ -6,13 +6,14 @@ import ReactDOM from 'react-dom'
 import { HashRouter, Route, Switch, Link } from 'react-router-dom'
 import { HomePage } from './home-page'
 import { KioskPage, KioskPlaygroundPage } from './kiosk'
+import { InternalPageLayout } from './ui'
 
 class App extends React.Component {
   render() {
     return (
       <div>
         <Switch>
-          <Route exact path="/" component={IndexPage} />
+          <Route exact path="/" component={RootPage} />
           <Route exact path="/events/:eventId" component={HomePage} />
           <Route exact path="/events/:eventId/kiosk" component={KioskPage} />
           <Route
@@ -26,13 +27,13 @@ class App extends React.Component {
     )
   }
 }
-class IndexPage extends React.Component {
+class RootPage extends React.Component {
   render() {
     return (
-      <div>
+      <InternalPageLayout>
         Welcome to ticket-checkin.<br />
         <Link to="/events/reactbkk3">reactbkk3</Link>
-      </div>
+      </InternalPageLayout>
     )
   }
 }
