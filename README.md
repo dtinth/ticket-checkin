@@ -56,6 +56,19 @@ Ticket check-in system, for events
         ◆ Attendees don’t get a personal greeting.
       </td>
     </tr>
+    <tr>
+      <td>
+        <strong>Manual check-in</strong><br />
+        A staff checks attendee in by searching manually. Used as a last resort.
+      </td>
+      <td>
+        ◆ For when user has lost their ticket but can verify their identity.
+      </td>
+      <td>
+        ◆ Needs manual work by staff.<br />
+        ◆ Takes the most time.
+      </td>
+    </tr>
   </table>
 
 - **Swag fulfillment:**
