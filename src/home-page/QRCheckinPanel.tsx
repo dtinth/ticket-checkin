@@ -1,22 +1,32 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, ReactNode } from 'react'
 import QrReader from 'react-qr-reader'
-import { inspect } from 'util'
-import { KioskCheckInController } from '../checkin-kiosk'
+import {
+  KioskCheckInController,
+  KioskCheckInState,
+  KioskCheckInStatus
+} from '../checkin-kiosk'
 import { AdminOnly } from '../event-admin'
 import { flashError } from '../flash-message'
 import { BoxItem, Button, HBox, VBox } from '../ui'
 import { Description } from './Description'
 
-export class QRCheckinPanel extends React.Component<{}, { enabled: boolean }> {
+export class QRCheckinPanel extends React.Component<
+  {},
+  { enabled: boolean; facingMode: 'user' | 'environment' }
+> {
   state = {
-    enabled: false
+    enabled: false,
+    facingMode: 'user' as 'user'
   }
   handleError = e => {
     console.error(e)
     flashError(`Cannot scan QR: ${e}`)
   }
-  onEnable = e => {
-    this.setState({ enabled: true })
+  onEnableUser = e => {
+    this.setState({ enabled: true, facingMode: 'user' })
+  }
+  onEnableEnvironment = e => {
+    this.setState({ enabled: true, facingMode: 'environment' })
   }
   onDisable = e => {
     this.setState({ enabled: false })
@@ -31,47 +41,81 @@ export class QRCheckinPanel extends React.Component<{}, { enabled: boolean }> {
             in by showing their QR code to the check-in kiosk.
           </Description>
         </BoxItem>
-        <BoxItem>
-          <AdminOnly>
-            {() => (
-              <Fragment>
+        <AdminOnly>
+          {() => (
+            <Fragment>
+              <BoxItem>
                 <HBox wrap>
-                  <Button disabled={enabled} onClick={this.onEnable}>
-                    Enable QR code reader
+                  <Button disabled={enabled} onClick={this.onEnableUser}>
+                    Front camera
+                  </Button>
+                  <Button disabled={enabled} onClick={this.onEnableEnvironment}>
+                    Back camera
                   </Button>
                   <Button disabled={!enabled} onClick={this.onDisable}>
-                    Disable QR code reader
+                    Disable
                   </Button>
                 </HBox>
-                {enabled && this.renderQRReader()}
-              </Fragment>
-            )}
-          </AdminOnly>
-        </BoxItem>
+              </BoxItem>
+              <BoxItem>{enabled && this.renderQRReader()}</BoxItem>
+            </Fragment>
+          )}
+        </AdminOnly>
       </VBox>
     )
   }
   renderQRReader() {
     return (
-      <div style={{ maxWidth: '256px' }}>
+      <div style={{ maxWidth: '360px', margin: '0 auto' }}>
         <KioskCheckInController>
           {state => (
-            <VBox>
+            <Fragment>
               <QrReader
                 delay={200}
                 onError={this.handleError}
                 onScan={code => code && state.handleRefCode(code)}
-                facingMode="user"
+                facingMode={this.state.facingMode}
               />
-              <div>
-                <pre style={{ margin: 0, whiteSpace: 'pre-wrap' }}>
-                  {inspect(state)}
-                </pre>
-              </div>
-            </VBox>
+              {this.renderResult(state)}
+            </Fragment>
           )}
         </KioskCheckInController>
       </div>
     )
+  }
+  renderResult(state: KioskCheckInState): ReactNode {
+    const msg = (color, text) => (
+      <div
+        style={{
+          background: color,
+          padding: 10,
+          textShadow: '1px 1px 0 rgba(0,0,0,0.3)'
+        }}
+      >
+        {text}
+      </div>
+    )
+    if (state.status === KioskCheckInStatus.Initializing) {
+      return msg('#9784D5', 'Initializing')
+    }
+    if (state.status === KioskCheckInStatus.InitializationError) {
+      return msg('#D58485', `Initialization error: ${state.error}`)
+    }
+    if (state.status === KioskCheckInStatus.Ready) {
+      return msg('#84A4D5', `Ready to scan`)
+    }
+    if (state.status === KioskCheckInStatus.Success) {
+      return msg(
+        '#43C051',
+        <span>
+          Scanned:<br />
+          <strong>{state.attendee!.displayName}</strong>
+        </span>
+      )
+    }
+    if (state.status === KioskCheckInStatus.NotFound) {
+      return msg('#D58485', `QR code not recognized`)
+    }
+    throw new Error('!')
   }
 }
