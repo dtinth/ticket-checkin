@@ -7,6 +7,7 @@ import { HashRouter, Route, Switch, Link } from 'react-router-dom'
 import { HomePage } from './home-page'
 import { KioskPage, KioskPlaygroundPage } from './kiosk'
 import { InternalPageLayout } from './ui'
+import { FulfillmentPage } from './fulfillment'
 
 class App extends React.Component {
   render() {
@@ -16,6 +17,11 @@ class App extends React.Component {
           <Route exact path="/" component={RootPage} />
           <Route exact path="/events/:eventId" component={HomePage} />
           <Route exact path="/events/:eventId/kiosk" component={KioskPage} />
+          <Route
+            exact
+            path="/events/:eventId/fulfillment"
+            component={FulfillmentPage}
+          />
           <Route
             exact
             path="/events/:eventId/kiosk-playground"
