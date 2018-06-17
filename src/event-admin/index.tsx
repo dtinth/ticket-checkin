@@ -8,7 +8,7 @@ import {
 } from '../firebase'
 import { eventContext } from '../event-context'
 import { Loading, ErrorMessage } from '../ui'
-
+import { Link } from 'react-router-dom'
 export class AdminOnly extends React.Component<{
   children: (user: firebase.User) => React.ReactNode
 }> {
@@ -35,11 +35,11 @@ export class AdminOnly extends React.Component<{
                       : dataState.status === FirebaseDataStatus.Available &&
                         dataState.data
                         ? this.props.children(user!)
-                        : this.renderUnauthorized()
+                        : this.renderUnauthorized(eventId)
                   }
                 </FirebaseData>
               ) : (
-                this.renderUnauthorized()
+                this.renderUnauthorized(eventId)
               )
             }
           </FirebaseAuth>
@@ -50,10 +50,11 @@ export class AdminOnly extends React.Component<{
   renderPending() {
     return <Loading>Checking access rights...</Loading>
   }
-  renderUnauthorized() {
+  renderUnauthorized(eventId: string) {
     return (
       <ErrorMessage>
-        Unauthorized — You must be an admin to view this section.
+        Unauthorized — You must be an admin to view this section.<br />
+        <Link to={`/events/${eventId}`}>Back to event</Link>
       </ErrorMessage>
     )
   }

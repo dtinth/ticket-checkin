@@ -5,31 +5,26 @@ path /events/{eventId} {
   }
   path /keys is Keys {}
   path /admins/{userId} is Boolean {
-    read() { auth.uid === userId }
+    read() { auth.uid == userId }
   }
   path /attendees/{attendeeId} is Attendee {
-    read() { isStaff(eventId) }
   }
   path /checkins/{attendeeId} is CheckIn {
     write() { isEventAdmin(eventId) }
-    read() { isStaff(eventId) }
   }
-  path /staffs/{staffId} is Staff {
-    read() { isStaff(eventId) }
+  path /fulfillment/{userId}/{clientId} {
+    path /available is String | Null {
+      write() { auth.uid == userId }
+    }
+    path /jobs/{jobId} is FulfillmentJob {
+      write() { auth.uid == userId }
+    }
   }
 }
 
 type Keys {
   attendee: String,
   staff: String
-}
-
-type Staff {
-  // If available for fulfillment, then put a unique ID here
-  available: String | Null,
-
-  // Filfillment jobs
-  jobs: Map<String, FulfillmentJob>
 }
 
 type Attendee {
@@ -53,4 +48,3 @@ type CheckIn {
 }
 
 isEventAdmin(eventId) { root.events[eventId].admins[auth.uid] != null }
-isStaff(eventId) { false }
