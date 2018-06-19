@@ -1,5 +1,5 @@
-import { ReactNode } from 'react'
-import React from 'react'
+import React, { ReactNode } from 'react'
+import { writeCheckinRecord, IAttendee } from '../checkin-firebase'
 import { EventData } from '../event-data'
 import { firebase, FirebaseDataState } from '../firebase'
 
@@ -35,11 +35,6 @@ export class KioskCheckInController extends React.Component<{
       </EventData>
     )
   }
-}
-
-export interface IAttendee {
-  displayName: string
-  info: any
 }
 
 class KioskStateController extends React.Component<
@@ -83,19 +78,8 @@ class KioskStateController extends React.Component<
         status: KioskCheckInStatus.Success,
         attendee: attendees[refCode]
       })
-      this.props.attendeesRef
-        .parent!.child('checkins')
-        .child(`${refCode}`)
-        .transaction(currentData => {
-          if (currentData === null) {
-            return {
-              time: firebase.database.ServerValue.TIMESTAMP,
-              mode: 'kiosk'
-            }
-          } else {
-            return
-          }
-        })
+      const attendeesRef = this.props.attendeesRef
+      writeCheckinRecord(attendeesRef, refCode, 'kiosk')
     } else {
       this.setState({
         status: KioskCheckInStatus.NotFound,

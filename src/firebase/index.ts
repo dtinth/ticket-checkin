@@ -154,7 +154,12 @@ export class FirebaseData<T = any> extends React.Component<
     })
   }
   render() {
-    return this.props.children(this.state, this.props.dataRef)
+    return this.props.children(
+      this.state,
+      this.dataRef && this.props.dataRef.isEqual(this.dataRef)
+        ? this.dataRef
+        : this.props.dataRef
+    )
   }
 }
 

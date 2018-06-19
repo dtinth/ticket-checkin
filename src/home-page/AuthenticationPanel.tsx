@@ -54,6 +54,7 @@ export class AuthenticationPanel extends React.Component {
                         disabled={authenticated}
                         size={15}
                         innerRef={el => (this.emailInput = el)}
+                        type="email"
                       />
                     </label>
                     <label>

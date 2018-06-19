@@ -1,7 +1,8 @@
 import React from 'react'
 import { AttendeeTotpViewModel, AttendeeTotpStatus } from '../attendee-totp'
-import { IAttendee, KioskViewModel, KioskCheckInStatus } from '../checkin-kiosk'
+import { KioskViewModel, KioskCheckInStatus } from '../checkin-kiosk'
 import { kioskContext, KioskContext } from './kioskContext'
+import { IAttendee } from '../checkin-firebase'
 
 export class ExampleKiosk extends React.Component {
   render() {
