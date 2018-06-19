@@ -37,9 +37,7 @@ async function main() {
       const untendedCheckins = []
 
       fulfillmentSnapshot.forEach(userSnapshot => {
-        const userId = userSnapshot.key
         userSnapshot.forEach(clientSnapshot => {
-          const clientId = clientSnapshot.key
           const availableKey = clientSnapshot.child('available').val()
           clientSnapshot.child('jobs').forEach(jobSnapshot => {
             acceptedRefCodes.add(jobSnapshot.child('refCode').val())
@@ -110,6 +108,7 @@ async function main() {
                   displayName
                 }
               }
+              return
             })
         }
       }
