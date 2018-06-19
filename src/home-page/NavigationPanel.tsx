@@ -10,7 +10,6 @@ export class NavigationPanel extends React.Component {
           <HBox wrap>
             <Link to={`/events/${eventId}/kiosk`}>Kiosk</Link>
             <Link to={`/events/${eventId}/kiosk-playground`}>(Playground)</Link>
-            <Link to={`/events/${eventId}/staff`}>Staff check-in</Link>
             <Link to={`/events/${eventId}/fulfillment`}>Fulfillment</Link>
           </HBox>
         )}
