@@ -2,7 +2,7 @@ import React, { Fragment, ReactNode } from 'react'
 import QrReader from 'react-qr-reader'
 import {
   KioskCheckInController,
-  KioskCheckInState,
+  KioskViewModel,
   KioskCheckInStatus
 } from '../checkin-kiosk'
 import { AdminOnly } from '../event-admin'
@@ -83,7 +83,7 @@ export class QRCheckinPanel extends React.Component<
       </div>
     )
   }
-  renderResult(state: KioskCheckInState): ReactNode {
+  renderResult(state: KioskViewModel): ReactNode {
     const msg = (color, text) => (
       <div
         style={{

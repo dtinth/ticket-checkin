@@ -8,14 +8,14 @@ export enum AttendeeTotpStatus {
   Ready = 'ready'
 }
 
-export interface AttendeeTotpState {
+export interface AttendeeTotpViewModel {
   status: AttendeeTotpStatus
   error?: Error
   totp: string | null
 }
 
 export class AttendeeTotpController extends React.Component<{
-  children: (state: AttendeeTotpState) => ReactNode
+  children: (state: AttendeeTotpViewModel) => ReactNode
 }> {
   render() {
     return (
@@ -32,7 +32,7 @@ export class AttendeeTotpController extends React.Component<{
 
 class TotpController extends React.Component<{
   keyState: FirebaseDataState<string>
-  children: (state: AttendeeTotpState) => ReactNode
+  children: (state: AttendeeTotpViewModel) => ReactNode
 }> {
   unmounted = false
   timeout: number | null = null

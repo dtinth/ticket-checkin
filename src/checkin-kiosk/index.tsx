@@ -11,7 +11,7 @@ export enum KioskCheckInStatus {
   NotFound = 'not found'
 }
 
-export interface KioskCheckInState {
+export interface KioskViewModel {
   status: KioskCheckInStatus
   error?: Error
   attendee?: IAttendee | null
@@ -19,7 +19,7 @@ export interface KioskCheckInState {
 }
 
 export class KioskCheckInController extends React.Component<{
-  children: (state: KioskCheckInState) => ReactNode
+  children: (state: KioskViewModel) => ReactNode
 }> {
   render() {
     return (
@@ -46,9 +46,9 @@ class KioskStateController extends React.Component<
   {
     attendeesState: FirebaseDataState<{ [refCode: string]: IAttendee }>
     attendeesRef: firebase.database.Reference
-    children: (state: KioskCheckInState) => ReactNode
+    children: (state: KioskViewModel) => ReactNode
   },
-  KioskCheckInState
+  KioskViewModel
 > {
   state = {
     status: KioskCheckInStatus.Ready,

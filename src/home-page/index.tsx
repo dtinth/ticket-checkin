@@ -1,15 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { eventContext } from '../event-context'
-import { AuthenticationPanel } from './AuthenticationPanel'
-import { NavigationPanel } from './NavigationPanel'
-import { InfoPanel } from './InfoPanel'
-import { CodeScannerPanel } from './CodeScannerPanel'
-import { AttendeeTotpPanel } from './AttendeeTotpPanel'
-import { SelfCheckinPanel } from './SelfCheckinPanel'
-import { ManualCheckinPanel } from './ManualCheckinPanel'
-import { QRCheckinPanel } from './QRCheckinPanel'
 import { InternalPageLayout, Panel } from '../ui'
+import { AttendeeTotpPanel } from './AttendeeTotpPanel'
+import { AuthenticationPanel } from './AuthenticationPanel'
+import { CodeScannerPanel } from './CodeScannerPanel'
+import { InfoPanel } from './InfoPanel'
+import { ManualCheckinPanel } from './ManualCheckinPanel'
+import { NavigationPanel } from './NavigationPanel'
+import { QRCheckinPanel } from './QRCheckinPanel'
+import { SelfCheckinPanel } from './SelfCheckinPanel'
 
 interface IControlPanel {
   title: string

@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, Fragment } from 'react'
-import { AttendeeTotpState, AttendeeTotpStatus } from '../attendee-totp'
-import { KioskCheckInState, KioskCheckInStatus } from '../checkin-kiosk'
+import { AttendeeTotpViewModel, AttendeeTotpStatus } from '../attendee-totp'
+import { KioskViewModel, KioskCheckInStatus } from '../checkin-kiosk'
 import { flashSuccess } from '../flash-message'
 import { KioskContext } from './kioskContext'
 import { Button, HBox, VBox } from '../ui'
@@ -14,7 +14,7 @@ export const playgroundStateContext = createContext<PlaygroundState>(null!)
 
 export const playgroundKioskContext: KioskContext = {
   TotpProvider: class MockTotpProvider extends React.Component<{
-    children: (state: AttendeeTotpState) => ReactNode
+    children: (state: AttendeeTotpViewModel) => ReactNode
   }> {
     render() {
       return this.props.children({
@@ -24,7 +24,7 @@ export const playgroundKioskContext: KioskContext = {
     }
   },
   KioskCheckInProvider: class MockKioskCheckInProvider extends React.Component<{
-    children: (state: KioskCheckInState) => ReactNode
+    children: (state: KioskViewModel) => ReactNode
   }> {
     render() {
       return (

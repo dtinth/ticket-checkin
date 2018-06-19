@@ -5,7 +5,7 @@ import { eventContext } from '../event-context'
 import { EventData, unwrapData } from '../event-data'
 import { firebase } from '../firebase'
 import { flashError } from '../flash-message'
-import { BoxItem, Button, HBox, InternalPageLayout, VBox } from '../ui'
+import { BoxItem, Button, HBox, InternalPageLayout, VBox, Loading } from '../ui'
 
 export class FulfillmentPage extends React.Component<{ match: any }> {
   render() {
@@ -54,6 +54,8 @@ class FulfillmentContainer extends React.Component<{ userId: string }> {
             {state => (
               <Fragment>
                 <BoxItem>{this.renderToggler(state)}</BoxItem>
+                <BoxItem>{this.renderActiveJob(state)}</BoxItem>
+                <BoxItem>{this.renderPastJobs(state)}</BoxItem>
               </Fragment>
             )}
           </FulfillmentClient>
@@ -78,6 +80,57 @@ class FulfillmentContainer extends React.Component<{ userId: string }> {
             </Button>
           </BoxItem>
         </HBox>
+      </Fragment>
+    )
+  }
+  renderActiveJob(state: FulfillmentClientState) {
+    const accepting = state.acceptingNewJob
+    return (
+      <div
+        style={{
+          border: '1px solid rgba(255,255,255,0.25)',
+          padding: 10,
+          textAlign: 'center'
+        }}
+      >
+        {state.activeJob ? (
+          <VBox>
+            <BoxItem>
+              Active job:<br />
+              <strong style={{ fontSize: '125%' }}>
+                {state.activeJob.displayName}
+              </strong>
+            </BoxItem>
+            <BoxItem>
+              <Button onClick={state.stopLookingForNewJobs}>Finish job</Button>
+            </BoxItem>
+          </VBox>
+        ) : accepting ? (
+          <Loading>Waiting for a job to be assigned</Loading>
+        ) : (
+          <Fragment>
+            No active job.<br />
+            Click{' '}
+            <Button disabled={accepting} onClick={state.acceptNewJob}>
+              Look for a new job
+            </Button>{' '}
+            to begin.
+          </Fragment>
+        )}
+      </div>
+    )
+  }
+  renderPastJobs(state: FulfillmentClientState) {
+    return (
+      <Fragment>
+        Past jobs:
+        <ul style={{ margin: 0 }}>
+          {state.previousJobs.slice(0, 10).map((job, index) => (
+            <li key={job._id}>
+              {state.previousJobs.length - index}. {job.displayName}
+            </li>
+          ))}
+        </ul>
       </Fragment>
     )
   }
@@ -108,10 +161,22 @@ class FulfillmentClient extends React.Component<{
   }
   renderContent(fulfillment: any, fulfillmentRef: firebase.database.Reference) {
     const availableId = (fulfillment || {}).available
-    const acceptingNewJob =
-      !!availableId && !((fulfillment || {}).jobs || {})[availableId]
+    const jobsObject = (fulfillment || {}).jobs || {}
+    const acceptingNewJob = !!availableId && !jobsObject[availableId]
+    const jobs: FulfillmentJob[] = Object.keys(jobsObject).map(k => {
+      return {
+        _id: k,
+        ...jobsObject[k]
+      }
+    })
+    const activeJob = jobs.find(job => availableId && job._id === availableId)
+    const previousJobs = jobs
+      .filter(job => job !== activeJob)
+      .sort((a, b) => b.time - a.time)
     return this.props.children({
       acceptingNewJob: acceptingNewJob,
+      activeJob,
+      previousJobs,
       acceptNewJob: () => {
         fulfillmentRef
           .child('available')
@@ -130,6 +195,15 @@ class FulfillmentClient extends React.Component<{
 
 interface FulfillmentClientState {
   acceptingNewJob: boolean
+  activeJob?: FulfillmentJob
+  previousJobs: FulfillmentJob[]
   acceptNewJob()
   stopLookingForNewJobs()
+}
+
+interface FulfillmentJob {
+  _id: string
+  time: number
+  refCode: string
+  displayName: string
 }

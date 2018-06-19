@@ -1,9 +1,9 @@
 import React from 'react'
 import { AdminOnly } from '../event-admin'
 import { eventContext } from '../event-context'
-import { Kiosk } from './Kiosk'
-import { kioskContext } from './kioskContext'
-import { playgroundKioskContext, PlaygroundStateManager } from './playground'
+import { Kiosk } from '../config'
+import { kioskContext } from '../kiosk'
+import { playgroundKioskContext, PlaygroundStateManager } from '../kiosk'
 
 export class KioskPage extends React.Component<{ match: any }> {
   render() {

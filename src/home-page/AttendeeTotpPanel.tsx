@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   AttendeeTotpController,
-  AttendeeTotpState,
+  AttendeeTotpViewModel,
   AttendeeTotpStatus
 } from '../attendee-totp'
 import { AdminOnly } from '../event-admin'
@@ -25,7 +25,7 @@ export class AttendeeTotpPanel extends React.Component {
       </VBox>
     )
   }
-  renderContents(state: AttendeeTotpState) {
+  renderContents(state: AttendeeTotpViewModel) {
     if (state.status === AttendeeTotpStatus.Initializing) {
       return <Loading>Loading TOTP</Loading>
     } else if (state.status === AttendeeTotpStatus.InitializationError) {

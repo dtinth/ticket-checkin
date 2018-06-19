@@ -5,7 +5,7 @@ import 'noty/lib/themes/mint.css'
 import ReactDOM from 'react-dom'
 import { HashRouter, Route, Switch, Link } from 'react-router-dom'
 import { HomePage } from './home-page'
-import { KioskPage, KioskPlaygroundPage } from './kiosk'
+import { KioskPage, KioskPlaygroundPage } from './kiosk-page'
 import { InternalPageLayout } from './ui'
 import { FulfillmentPage } from './fulfillment'
 
