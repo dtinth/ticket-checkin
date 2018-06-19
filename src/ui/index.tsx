@@ -6,18 +6,23 @@ export const InternalPageLayout = styled('div')({
   padding: 20
 })
 
-export const Button = styled('button')({
-  font: 'inherit',
-  border: '1px solid #00d8ff',
-  padding: '2px 5px',
-  background: '#00d8ff',
-  color: '#000',
-  '&:disabled': {
-    opacity: 0.5,
-    background: '#888',
-    borderColor: '#888'
-  }
-})
+export const Button = styled('button')(
+  {
+    font: 'inherit',
+    border: '1px solid #00d8ff',
+    padding: '2px 5px',
+    '&:disabled': {
+      opacity: 0.5,
+      background: '#888',
+      borderColor: '#888'
+    }
+  },
+  (props: { danger?: boolean }) => ({
+    border: `1px solid ${props.danger ? '#d0021b' : '#00d8ff'}`,
+    background: props.danger ? '#d0021b' : '#00d8ff',
+    color: props.danger ? '#fff' : '#000'
+  })
+)
 
 export const TextField = styled('input')({
   font: 'inherit',
