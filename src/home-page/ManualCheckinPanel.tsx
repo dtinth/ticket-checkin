@@ -61,7 +61,7 @@ class ManualCheckinView extends React.PureComponent<{
   attendeesRef: firebase.database.Reference
 }> {
   state = {
-    value: 'th',
+    value: '',
     extended: false
   }
   render() {
