@@ -18,6 +18,13 @@ export function writeCheckinRecord(
         return
       }
     })
+  localStorage.setItem(
+    `ticket-checkin:${refCode}`,
+    JSON.stringify({
+      mode,
+      time: Date.now()
+    })
+  )
 }
 
 export interface IAttendee {
