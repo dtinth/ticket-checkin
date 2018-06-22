@@ -27,6 +27,8 @@ async function main() {
   const readFulfillment = await getReader(eventRef.child('fulfillment'))
   log.info('Fulfillments synchronized...')
 
+  let lastInfo
+
   for (;;) {
     try {
       const checkinsSnapshot = readCheckins()
@@ -71,12 +73,15 @@ async function main() {
         (a, b) => a.child('time').val() - b.child('time').val()
       )
 
+      const info = {
+        untended: untendedCheckins.length,
+        accepting: acceptingClients.length
+      }
+      if (!lastInfo || JSON.stringify(lastInfo) !== JSON.stringify(info)) {
+        log.info(info, 'Processing queue')
+      }
+
       if (untendedCheckins.length || acceptingClients.length) {
-        log.info(
-          '%d untended attendees, %d accepting clients.',
-          untendedCheckins.length,
-          acceptingClients.length
-        )
         for (
           let i = 0;
           i < untendedCheckins.length && i < acceptingClients.length;
