@@ -15,6 +15,22 @@ const FILL: CSSProperties = {
 
 export class ReactBKK3Kiosk extends React.Component {
   private rememberedName: string = ''
+  private timeout: number
+  state = { small: true }
+  checkViewport = () => {
+    const small = window.innerWidth < 2500
+    if (small !== this.state.small) {
+      this.setState({ small })
+    }
+  }
+  componentDidMount() {
+    this.timeout = window.setTimeout(this.checkViewport)
+    window.addEventListener('resize', this.checkViewport)
+  }
+  componentWillUnmount() {
+    window.clearTimeout(this.timeout)
+    window.removeEventListener('resize', this.checkViewport)
+  }
 
   render() {
     return (
@@ -44,6 +60,24 @@ export class ReactBKK3Kiosk extends React.Component {
     )
   }
   renderInContext = (ctx: KioskContext) => {
+    if (this.state.small) {
+      return (
+        <div style={{ flex: 1 }}>
+          <div
+            style={{ width: 1200, height: 1200, zoom: 0.5, margin: '0 auto' }}
+          >
+            <Heading background="#333">
+              <HeadingText color="#fff">
+                Present your QR code to check in
+              </HeadingText>
+            </Heading>
+            <ctx.KioskCheckInProvider>
+              {this.renderCheckIn}
+            </ctx.KioskCheckInProvider>
+          </div>
+        </div>
+      )
+    }
     return (
       <div style={{ flex: 1, display: 'flex' }}>
         <div style={{ width: '41.875%', flex: 'none', position: 'relative' }}>
@@ -148,12 +182,25 @@ export class ReactBKK3Kiosk extends React.Component {
         <div
           style={{
             display: 'block',
-            fontSize: '2em',
+            fontSize: '2.8em',
+            fontFamily: 'Roboto Mono',
+            fontWeight: 300,
             textAlign: 'center',
-            letterSpacing: '0.5ex'
+            letterSpacing: '0.2ex'
           }}
         >
-          {state.totp}
+          <div style={{ paddingLeft: '0.2ex' }}>{state.totp}</div>
+          <div
+            key={state.totp || '^_^'}
+            style={{
+              background: '#888',
+              transform: `scaleX(${state.fractionTimeLeft || 0})`,
+              width: '80%',
+              margin: '8px auto 0',
+              height: 8,
+              transition: '1s transform linear'
+            }}
+          />
         </div>
       </div>
     )
