@@ -12,6 +12,7 @@ export interface AttendeeTotpViewModel {
   status: AttendeeTotpStatus
   error?: Error
   totp: string | null
+  fractionTimeLeft?: number
 }
 
 export class AttendeeTotpController extends React.Component<{
@@ -40,7 +41,8 @@ class TotpController extends React.Component<{
     if (this.props.keyState.data) {
       return this.props.children({
         status: AttendeeTotpStatus.Ready,
-        totp: authenticator.generate(this.props.keyState.data)
+        totp: authenticator.generate(this.props.keyState.data),
+        fractionTimeLeft: (30000 - (Date.now() % 30000)) / 30000
       })
     } else if (this.props.keyState.error) {
       return this.props.children({
