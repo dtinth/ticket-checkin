@@ -1,4 +1,5 @@
 import { firebase } from '../firebase'
+import { saveLog } from '../local-logs'
 
 export function writeCheckinRecord(
   attendeesRef: firebase.database.Reference,
@@ -18,13 +19,12 @@ export function writeCheckinRecord(
         return
       }
     })
-  localStorage.setItem(
-    `ticket-checkin:${refCode}`,
-    JSON.stringify({
-      mode,
-      time: Date.now()
-    })
-  )
+  saveLog({
+    type: 'checkin',
+    eventId: attendeesRef.parent!.key,
+    refCode,
+    mode
+  })
 }
 
 export interface IAttendee {

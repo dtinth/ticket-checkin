@@ -6,6 +6,7 @@ import { unwrapData, EventData } from '../event-data'
 import { IAttendee, writeCheckinRecord } from '../checkin-firebase'
 import { firebase } from '../firebase'
 import styled from 'react-emotion'
+import { saveLog } from '../local-logs'
 
 const checkedInContext = createContext(new Set())
 
@@ -29,7 +30,7 @@ export class ManualCheckinPanel extends React.Component {
                       checkinsState,
                       checkins => (
                         <checkedInContext.Provider
-                          value={new Set(Object.keys(checkins))}
+                          value={new Set(Object.keys(checkins || {}))}
                         >
                           {unwrapData(
                             attendeesState,
@@ -195,11 +196,18 @@ class AttendeeResultItem extends React.PureComponent<{
   }
   undoCheckIn = () => {
     if (window.confirm('Are you really sure???')) {
+      const refCode = this.props.result.refCode
+      const attendeesRef = this.props.attendeesRef
       // XXX: This is an ugly hack.
-      this.props.attendeesRef
+      attendeesRef
         .parent!.child('checkins')
-        .child(this.props.result.refCode)
+        .child(refCode)
         .remove()
+      saveLog({
+        type: 'undo',
+        eventId: attendeesRef.parent!.key,
+        refCode
+      })
     }
   }
 }
