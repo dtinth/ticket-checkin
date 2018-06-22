@@ -6,6 +6,7 @@ import { EventData, unwrapData } from '../event-data'
 import { firebase } from '../firebase'
 import { flashError } from '../flash-message'
 import { BoxItem, Button, HBox, InternalPageLayout, VBox, Loading } from '../ui'
+import { FirebaseStatusIndicator } from '../firebase-status'
 
 export class FulfillmentPage extends React.Component<{ match: any }> {
   render() {
@@ -13,6 +14,7 @@ export class FulfillmentPage extends React.Component<{ match: any }> {
     return (
       <eventContext.Provider value={eventId}>
         <AdminOnly>{user => <Fulfillment userId={user.uid} />}</AdminOnly>
+        <FirebaseStatusIndicator />
       </eventContext.Provider>
     )
   }

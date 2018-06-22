@@ -10,6 +10,7 @@ import { ManualCheckinPanel } from './ManualCheckinPanel'
 import { NavigationPanel } from './NavigationPanel'
 import { QRCheckinPanel } from './QRCheckinPanel'
 import { SelfCheckinPanel } from './SelfCheckinPanel'
+import { FirebaseStatusIndicator } from '../firebase-status'
 
 interface IControlPanel {
   title: string
@@ -81,6 +82,7 @@ export class HomePage extends React.Component<{ match: any }> {
     return (
       <eventContext.Provider value={this.props.match.params.eventId}>
         {this.renderContent()}
+        <FirebaseStatusIndicator />
       </eventContext.Provider>
     )
   }

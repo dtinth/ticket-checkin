@@ -118,8 +118,8 @@ export class FirebaseData<T = any> extends React.Component<
       this.dataRef.off('value', this.onUpdate)
     }
     this.dataRef = ref
-    ref.on('value', this.onUpdate, this.onError)
     this.setState({ status: FirebaseDataStatus.Pending })
+    ref.on('value', this.onUpdate, this.onError)
   }
 
   componentWillUnmount() {
