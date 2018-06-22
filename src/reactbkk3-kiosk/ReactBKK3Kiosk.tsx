@@ -48,7 +48,9 @@ export class ReactBKK3Kiosk extends React.Component {
       <div style={{ flex: 1, display: 'flex' }}>
         <div style={{ width: '41.875%', flex: 'none', position: 'relative' }}>
           <Heading background="#333">
-            <HeadingText color="#fff">Present your QR code here</HeadingText>
+            <HeadingText color="#fff">
+              Present your QR code to check in
+            </HeadingText>
           </Heading>
           <ctx.KioskCheckInProvider>
             {this.renderCheckIn}
@@ -65,11 +67,11 @@ export class ReactBKK3Kiosk extends React.Component {
             <div
               style={{
                 color: 'white',
-                font: 'bold 64px Helvetica Neue, Helvetica, sans-serif',
+                font: 'bold 56px Helvetica Neue, Helvetica, sans-serif',
                 marginLeft: '0.5em'
               }}
             >
-              #reactbkk@3.0.0
+              #reactbkk<span style={{ fontWeight: 300 }}>@3.0.0</span>
             </div>
             <div style={{ ...FILL, top: '128px' }}>
               <iframe
@@ -172,7 +174,7 @@ const HeadingText = styled('div')(
   {
     flex: 'auto',
     textAlign: 'center',
-    fontSize: '64px',
+    fontSize: '56px',
     fontWeight: 700,
     fontFamily: Fonts.display
   },
