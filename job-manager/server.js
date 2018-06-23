@@ -78,6 +78,7 @@ async function main() {
         accepting: acceptingClients.length
       }
       if (!lastInfo || JSON.stringify(lastInfo) !== JSON.stringify(info)) {
+        lastInfo = info
         log.info(info, 'Processing queue')
       }
 
