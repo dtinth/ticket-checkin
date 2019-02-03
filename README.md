@@ -2,6 +2,28 @@
 
 Ticket check-in system, for events
 
+## Screenshots tour
+
+- **A check-in kiosk.** Attendee can present a QR code at the kiosk or use their mobile phone to self-checkin using their ticket reference number.
+
+  ![Kiosk](kiosk.jpg)
+
+- **API for self-checkin.** Instead of presenting a QR code, an attendee can go to the event website and check in using their ticket reference number..
+
+  <p align="center"><img src="self.png" alt="Self check-in" width="430"></p>
+
+- **A staff panel.** Event staff can manually check-in tickets for the attendees.
+
+  ![Staff panel](staff-panel.png)
+
+  Mobile version:
+
+  <p align="center"><img src="staff-manual.png" alt="Staff manual check-in (mobile)" width="430"></p>
+
+- **QR code scanner webapp for event staff.** In addition to the kiosk, event staff can scan attendee’s QR code using their mobile phone.
+
+  <p align="center"><img src="staff-qr.png" alt="Staff QR check-in (mobile)" width="430"></p>
+
 ## Features
 
 - **Multiple check-in modes:**
